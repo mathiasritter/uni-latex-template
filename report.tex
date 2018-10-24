@@ -1,0 +1,160 @@
+%-------------------------------------------------------------------------------
+% AUTHOR & ASSIGNMENT DATA
+%-------------------------------------------------------------------------------
+
+\newcommand{\assignmentModule}{COMPXXXX}
+\newcommand{\assignmentTitle}{Assignment 1}
+\newcommand{\assignmentProgrammingLanguage}{java}
+\newcommand{\authorName}{Name}
+\newcommand{\authorStudentID}{0123456789}
+\newcommand{\authorEmail}{email@address.com}
+
+
+%-------------------------------------------------------------------------------
+% BASIC DOCUMENT CONFIGURATION
+%-------------------------------------------------------------------------------
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[left=2.54cm, right=2.54cm, top=3.54cm, bottom=3.54cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[british]{babel}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=blue, linktoc=all]{hyperref}
+\usepackage{csquotes}
+\usepackage{totcount}
+
+%-------------------------------------------------------------------------------
+% CODE LISTINGS CONFIGURATION
+%-------------------------------------------------------------------------------
+
+\usepackage{xcolor}
+\definecolor{light-gray}{gray}{0.98}
+\definecolor{dark-gray}{gray}{0.40}
+\definecolor{javared}{rgb}{0.6,0,0} % for strings
+\definecolor{javagreen}{rgb}{0.25,0.5,0.35} % comments
+\definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords
+\definecolor{javadocblue}{rgb}{0.25,0.35,0.75} % javadoc
+
+\usepackage{listings}
+\lstset{basicstyle=\fontsize{11}{13}\selectfont\ttfamily,
+	language=\assignmentProgrammingLanguage,
+	keywordstyle=\color{javapurple}\bfseries,
+	stringstyle=\color{javared},
+	commentstyle=\color{javagreen},
+	morecomment=[s][\color{javadocblue}]{/**}{*/},
+	showspaces=false,
+	showstringspaces=false,
+	tabsize=2,
+	backgroundcolor=\color{light-gray},
+	numbers=left,
+	numberstyle=\tiny\color{dark-gray},
+	framexrightmargin=-0.25em,
+	frame=single,
+	captionpos=b,
+	breaklines=true,
+	breakatwhitespace=true,
+	postbreak=\mbox{\textcolor{black}{$\hookrightarrow$}\space},
+}
+
+\makeatletter
+\newlength{\singlespace}
+\newlength{\gobble}
+\newlength{\numbersep}
+% The width of a single space.
+\settowidth{\singlespace}{\lst@basicstyle \ }
+\setlength{\singlespace}{-\singlespace}
+\lst@Key{firstlineandnumber}\relax{\def\lst@firstline{#1\relax}\def\lst@firstnumber{#1\relax}}
+\lst@Key{widthgobble}{0}{%
+	\setlength{\gobble}{1.1\singlespace}% reindent a bit
+	\setlength{\gobble}{\lst@tabsize\gobble}% multiply by tabsize
+	\setlength{\gobble}{#1\gobble}% multiply by number of tabs
+	\setlength{\gobble}{\dimexpr\gobble+1.5em\relax}% multiply by number of tabs
+	\setlength{\numbersep}{\gobble}%
+	\def\lst@xleftmargin{\gobble}% move left margin left
+	\def\lst@framexleftmargin{\dimexpr\gobble-1.6em\relax}% move left frameborder left
+	\addtolength{\numbersep}{-12pt}%
+	\def\lst@numbersep{\numbersep}% distance between numbers and left frameborder
+}
+\makeatother
+
+\usepackage{scrhack}
+\setuptoc{lol}{numbered}
+
+%-------------------------------------------------------------------------------
+% BIBLIOGRAPHY CONFIGURATION
+%-------------------------------------------------------------------------------
+
+\usepackage[style=numeric,backend=biber,urldate=long, sorting=none]{biblatex}
+\bibliography{sources}
+
+%-------------------------------------------------------------------------------
+% HEADER & FOOTER
+%-------------------------------------------------------------------------------
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\assignmentTitle}
+\fancyhead[R]{\authorName}
+\fancyfoot[L]{\today}
+\fancyfoot[R]{Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+	
+%-------------------------------------------------------------------------------
+% TITLE PAGE & TABLE OF CONTENT
+%-------------------------------------------------------------------------------
+
+\begin{document}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\title{ \normalsize \textsc{\assignmentModule{}}
+	\\ [2.0cm]
+	\HRule{2pt} \\ [0.5cm]
+	\LARGE \textbf{\uppercase{\assignmentTitle}}
+	\HRule{2pt} \\ [0.5cm]
+	\normalsize \today \vspace*{5\baselineskip}}
+
+\date{}
+
+\author{
+	\authorName \\
+	Student ID: \authorStudentID \\ 
+	E-Mail: \authorEmail
+}
+
+\maketitle \thispagestyle{empty}
+\newpage
+
+\tableofcontents \thispagestyle{fancy}
+\newpage
+
+%-------------------------------------------------------------------------------
+% DOCUMENT BODY
+%-------------------------------------------------------------------------------
+
+\section{SomeSection}
+
+Text Text Text.
+
+
+%-------------------------------------------------------------------------------
+% PRINT BIOBLIOGRAPHY
+%-------------------------------------------------------------------------------
+
+\newpage
+\printbibliography[heading=bibnumbered]
+
+
+%-------------------------------------------------------------------------------
+% PRINT LISTINGS
+%-------------------------------------------------------------------------------
+
+\newpage
+\lstlistoflistings \thispagestyle{fancy}
+
+
+\end{document}
