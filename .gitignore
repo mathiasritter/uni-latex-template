@@ -286,9 +286,14 @@ Temporary Items
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
-#### compiled pdf ####
-*.pdf
-
-#metadata
+# metadata
 .metadata
 
+# vscode settings
+.vscode
+
+# code listings
+*.listing
+
+#### compiled pdf ####
+*.pdf

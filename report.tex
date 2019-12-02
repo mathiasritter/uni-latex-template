@@ -1,162 +1,276 @@
 %-------------------------------------------------------------------------------
-% AUTHOR & ASSIGNMENT DATA
+% BASIC DOCUMENT SETUP
 %-------------------------------------------------------------------------------
 
-\newcommand{\assignmentModule}{COMPXXXX}
-\newcommand{\assignmentTitle}{Assignment 1}
-\newcommand{\assignmentProgrammingLanguage}{java}
-\newcommand{\authorName}{Name}
-\newcommand{\authorStudentID}{0123456789}
-\newcommand{\authorEmail}{email@address.com}
-
-
-%-------------------------------------------------------------------------------
-% BASIC DOCUMENT CONFIGURATION
-%-------------------------------------------------------------------------------
-
-\documentclass[12pt,a4paper]{article}
-\usepackage[left=2.54cm, right=2.54cm, top=3.54cm, bottom=3.54cm]{geometry}
-\usepackage[utf8]{inputenc}
-\usepackage[british]{babel}
-\usepackage{graphicx}
-\usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=blue, linktoc=all]{hyperref}
-\usepackage{csquotes}
-\usepackage{totcount}
-\usepackage{parskip}
-\usepackage[table]{xcolor}
+\documentclass[12pt,a4paper]{article} % document type, page size, font size
+\usepackage[margin=2.54cm, headheight=15pt]{geometry} % page margins
+\usepackage[utf8]{inputenc} % input encoding
+\usepackage[T1]{fontenc} % font encoding
+\usepackage[british]{babel} % hyphenation rules
+\usepackage{csquotes} % format quotes correctly
+\usepackage{parskip} % avoid indentation at beginning of paragraph
+\usepackage[toc]{appendix} % for creating the appendix
+\usepackage{comment} % environment for multi-line comments
+\usepackage[table]{xcolor} % color definitions
 
 %-------------------------------------------------------------------------------
-% CODE LISTINGS CONFIGURATION
+% TITLE & AUTHOR
 %-------------------------------------------------------------------------------
 
-\usepackage{xcolor}
-\definecolor{light-gray}{gray}{0.98}
-\definecolor{dark-gray}{gray}{0.40}
-\definecolor{javared}{rgb}{0.6,0,0} % for strings
-\definecolor{javagreen}{rgb}{0.25,0.5,0.35} % comments
-\definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords
-\definecolor{javadocblue}{rgb}{0.25,0.35,0.75} % javadoc
-
-\usepackage{listings}
-\lstset{basicstyle=\fontsize{11}{13}\selectfont\ttfamily,
-	language=\assignmentProgrammingLanguage,
-	keywordstyle=\color{javapurple}\bfseries,
-	stringstyle=\color{javared},
-	commentstyle=\color{javagreen},
-	morecomment=[s][\color{javadocblue}]{/**}{*/},
-	showspaces=false,
-	showstringspaces=false,
-	tabsize=2,
-	backgroundcolor=\color{light-gray},
-	numbers=left,
-	numberstyle=\tiny\color{dark-gray},
-	framexrightmargin=-0.25em,
-	frame=single,
-	captionpos=b,
-	breaklines=true,
-	breakatwhitespace=true,
-	postbreak=\mbox{\textcolor{black}{$\hookrightarrow$}\space},
-}
-
-\makeatletter
-\newlength{\singlespace}
-\newlength{\gobble}
-\newlength{\numbersep}
-% The width of a single space.
-\settowidth{\singlespace}{\lst@basicstyle \ }
-\setlength{\singlespace}{-\singlespace}
-\lst@Key{firstlineandnumber}\relax{\def\lst@firstline{#1\relax}\def\lst@firstnumber{#1\relax}}
-\lst@Key{widthgobble}{0}{%
-	\setlength{\gobble}{1.1\singlespace}% reindent a bit
-	\setlength{\gobble}{\lst@tabsize\gobble}% multiply by tabsize
-	\setlength{\gobble}{#1\gobble}% multiply by number of tabs
-	\setlength{\gobble}{\dimexpr\gobble+1.5em\relax}% multiply by number of tabs
-	\setlength{\numbersep}{\gobble}%
-	\def\lst@xleftmargin{\gobble}% move left margin left
-	\def\lst@framexleftmargin{\dimexpr\gobble-1.6em\relax}% move left frameborder left
-	\addtolength{\numbersep}{-12pt}%
-	\def\lst@numbersep{\numbersep}% distance between numbers and left frameborder
-}
-\makeatother
-
-\usepackage{scrhack}
-\setuptoc{lol}{numbered}
-
-%-------------------------------------------------------------------------------
-% BIBLIOGRAPHY CONFIGURATION
-%-------------------------------------------------------------------------------
-
-\usepackage[style=numeric,backend=biber,urldate=long, sorting=none]{biblatex}
-\bibliography{sources}
+\title{Title} % title
+\newcommand{\subtitle}{Subtitle} % subtitle
+\author{Firstname Lastname} % author
 
 %-------------------------------------------------------------------------------
 % HEADER & FOOTER
 %-------------------------------------------------------------------------------
 
-\usepackage{fancyhdr}
-\usepackage{lastpage}
+\usepackage{fancyhdr} % header and footer
+\usepackage{lastpage} % page count
 
+\makeatletter
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\assignmentTitle}
-\fancyhead[R]{\authorName}
-\fancyfoot[L]{\today}
-\fancyfoot[R]{Page \thepage\ of \pageref{LastPage}}
-\renewcommand{\headrulewidth}{0.5pt}
-\renewcommand{\footrulewidth}{0.5pt}
-	
+\fancyhead[L]{\@title} % top left
+\fancyhead[R]{\@author} % top right
+\fancyfoot[L]{\subtitle} % bottom left
+\fancyfoot[R]{Page \thepage\ of \pageref{LastPage}} % bottom right
+\renewcommand{\headrulewidth}{0.5pt} % rule below header
+\renewcommand{\footrulewidth}{0.5pt} % rule below footer
+\makeatother
+
 %-------------------------------------------------------------------------------
-% TITLE PAGE & TABLE OF CONTENT
+% HYPERLINKS
+%-------------------------------------------------------------------------------
+
+\usepackage{hyperref} % links
+\hypersetup{ % definition of different link colors
+    colorlinks=true,   
+	urlcolor=blue,
+	linkcolor=black,
+	citecolor=black
+}
+
+%-------------------------------------------------------------------------------
+% CODE LISTINGS
+%-------------------------------------------------------------------------------
+
+\usepackage{listings} % create a list of code listings
+\usepackage{minted} % code listings
+\usepackage[most]{tcolorbox} % box for code listings
+\tcbuselibrary{minted,skins} % use minted in box for code listings
+
+\AtBeginDocument{ % configurations of code listings and its surrounding box
+	\newtcblisting[blend into=listings]{code}[2][]{
+		listing engine=minted,
+		title={#1},
+		label={#2},
+		center title,
+		listing only,
+		breakable=true,
+		enhanced=true,
+		left=5mm,
+		bottom=0mm,
+		top=0mm,
+		overlay={
+			\begin{tcbclipinterior}
+				\fill[black!15] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+			\end{tcbclipinterior}
+		},
+		colback=black!1,
+		colframe=black!70,
+		minted style=colorful,
+		minted language=TypeScript, % specify the programming language here
+		minted options={
+			linenos=true,
+			numbersep=2.5mm,
+			autogobble=true,
+			breaklines=true,
+			tabsize=2,
+			fontsize=\small
+		}
+	}
+}
+
+%-------------------------------------------------------------------------------
+% BIBLIOGRAPHY
+%-------------------------------------------------------------------------------
+
+\usepackage[style=numeric,urldate=long,backend=biber]{biblatex} % configure references style
+\addbibresource{./sources.bib} % specify references file
+
+%-------------------------------------------------------------------------------
+% IMAGES
+%-------------------------------------------------------------------------------
+
+\usepackage{graphicx} % import images
+\graphicspath{ {./images/} } % root path for all images
+
+%-------------------------------------------------------------------------------
+% CAPTIONS
+%-------------------------------------------------------------------------------
+
+\usepackage{caption} % captions
+\captionsetup{aboveskip=5pt, belowskip=0pt} % configure captions
+
+%-------------------------------------------------------------------------------
+% TABLE
+%-------------------------------------------------------------------------------
+
+\usepackage{tabularx} % table
+\usepackage{multirow} % allow cells to spread across multiple rows/columns
+
+%-------------------------------------------------------------------------------
+% TITLE PAGE
 %-------------------------------------------------------------------------------
 
 \begin{document}
+%TC:ignore
 
-\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+\makeatletter
+\begin{titlepage}
+	\thispagestyle{empty}
+	\centering
+	\Large
+	\vspace*{5\baselineskip}
+	
+	Electronics and Computer Science\\
+	Faculty of Physical Sciences and Engineering\\
+	University of Southampton
+	\vspace*{\fill}
 
-\title{ \normalsize \textsc{\assignmentModule{}}
-	\\ [2.0cm]
-	\HRule{2pt} \\ [0.5cm]
-	\LARGE \textbf{\uppercase{\assignmentTitle}}
-	\HRule{2pt} \\ [0.5cm]
-	\normalsize \today \vspace*{5\baselineskip}}
+	{\Huge\bfseries\@title\\}
+	\subtitle
+	\vspace*{\fill}
 
-\date{}
+	\@author\\
+	\@date
+	
+	\vspace*{10\baselineskip}
+\end{titlepage}
+\makeatother
 
-\author{
-	\authorName \\
-	Student ID: \authorStudentID \\ 
-	E-Mail: \authorEmail
-}
+%-------------------------------------------------------------------------------
+% ABSTRACT & STATEMENT OF ORIGINALITY
+%-------------------------------------------------------------------------------
 
-\maketitle \thispagestyle{empty}
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+
+The abstract.
+
 \newpage
+\section*{Statement of Originality}
+\addcontentsline{toc}{section}{Statement of Originality}
 
-\tableofcontents \thispagestyle{fancy}
+I have read and understood the ECS Academic Integrity information and the University's Academic Integrity Guidance for Students.
+I am aware that failure to act in accordance with the Regulations Governing Academic Integrity may lead to the imposition of penalties which, for the most serious cases, may include termination of programme.
+I consent to the University copying and distributing any or all of my work in any form and using third parties (who may be based outside the EU/EEA) to verify whether my work contains plagiarised material, and for quality assurance purposes.
+
+I have acknowledged all sources, and identified any content taken from elsewhere.
+I have not used any resources produced by anyone else.
+I did all the work myself, or with my allocated group, and have not helped anyone else.
+The material in the report is genuine, and I have included all my data/code/designs.
+I have not submitted any part of this work for another assessment.
+My work did not involve human participants, their cells or data, or animals.
+
+%-------------------------------------------------------------------------------
+% TABLE OF CONTENTS
+%-------------------------------------------------------------------------------
+
 \newpage
+\tableofcontents
+%TC:endignore
 
 %-------------------------------------------------------------------------------
 % DOCUMENT BODY
 %-------------------------------------------------------------------------------
 
-\section{SomeSection}
+\newpage
+\section{Introduction}\label{sec:introduction}
 
-Text Text Text.
+Hello World \cite{React}.
+Please check out listing \ref{listing:awesome-code}, table \ref{tab:mytable} and figure \ref{fig:latex-logo}!
 
+\begin{code}[Awesome Code]{listing:awesome-code}
+const cool = (): String => {
+	return "cool";
+}
+\end{code}
+
+\begin{table}[h!]
+	\begin{tabularx}{\textwidth}{|l|X|}
+		\hline
+		\textbf{Name} & \textbf{University} \\
+		\hline
+		Max & University of Southampton \\
+		\hline
+	\end{tabularx}
+	\caption{Some Table}
+	\label{tab:mytable}
+\end{table}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.5\textwidth]{latex.png}
+	\caption{Latex Logo}
+	\label{fig:latex-logo}
+\end{figure}
+
+\newpage
+\section{Conclusion}\label{sec:conclusion}
+Everything is awesome (see appendix \ref{sec:first-appendix}).
 
 %-------------------------------------------------------------------------------
-% PRINT BIOBLIOGRAPHY
+% BIBLIOGRAPHY
+%-------------------------------------------------------------------------------
+
+%TC:ignore
+\newpage
+\printbibliography
+\addcontentsline{toc}{section}{References}
+
+%-------------------------------------------------------------------------------
+% FIGURES, TABLES AND LISTINGS
 %-------------------------------------------------------------------------------
 
 \newpage
-\printbibliography[heading=bibnumbered]
-
-
-%-------------------------------------------------------------------------------
-% PRINT LISTINGS
-%-------------------------------------------------------------------------------
+\listoffigures \thispagestyle{fancy}
+\addcontentsline{toc}{section}{Lists}
+\addcontentsline{toc}{subsection}{List of Figures}
 
 \newpage
+\listoftables \thispagestyle{fancy}
+\addcontentsline{toc}{subsection}{List of Tables}
+
+\newpage
+\renewcommand{\lstlistlistingname}{List of Listings}
 \lstlistoflistings \thispagestyle{fancy}
+\addcontentsline{toc}{subsection}{List of Listings}
 
+%-------------------------------------------------------------------------------
+% APENDICES
+%-------------------------------------------------------------------------------
 
+\newpage
+\begin{appendices}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
+\makeatletter
+\addtocontents{toc}{%
+\begingroup
+\let\protect\l@section\protect\l@subsection % add sections as subsections to toc
+}
+\makeatother
+
+\section{First Appendix}\label{sec:first-appendix}
+Some Appendix
+
+\newpage
+\section{Second Appendix}\label{sec:second-appendix}
+Another Appendix
+
+\addtocontents{toc}{\endgroup}
+\end{appendices}
+
+%TC:endignore
 \end{document}
