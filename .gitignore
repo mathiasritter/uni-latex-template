@@ -295,5 +295,8 @@ Temporary Items
 # code listings
 *.listing
 
+# jetbrains
+.idea
+
 #### compiled pdf ####
 *.pdf

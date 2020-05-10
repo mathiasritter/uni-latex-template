@@ -6,12 +6,11 @@
 \usepackage[margin=2.54cm, headheight=15pt]{geometry} % page margins
 \usepackage[utf8]{inputenc} % input encoding
 \usepackage[T1]{fontenc} % font encoding
-\usepackage[british]{babel} % hyphenation rules
-\usepackage{csquotes} % format quotes correctly
 \usepackage{parskip} % avoid indentation at beginning of paragraph
 \usepackage[toc]{appendix} % for creating the appendix
 \usepackage{comment} % environment for multi-line comments
 \usepackage[table]{xcolor} % color definitions
+\usepackage{amsmath} % maths
 
 %-------------------------------------------------------------------------------
 % TITLE & AUTHOR
@@ -40,6 +39,13 @@
 \makeatother
 
 %-------------------------------------------------------------------------------
+% HYPHENATION RULES
+%-------------------------------------------------------------------------------
+
+\usepackage[british]{babel} % British English hyphenation rules
+% \babelhyphenation{Java-Script} % example for a custom hypenation rule
+
+%-------------------------------------------------------------------------------
 % HYPERLINKS
 %-------------------------------------------------------------------------------
 
@@ -56,15 +62,15 @@
 %-------------------------------------------------------------------------------
 
 \usepackage{listings} % create a list of code listings
-\usepackage{minted} % code listings
+\usepackage{minted} % code listings, optionally specify outputdir here
 \usepackage[most]{tcolorbox} % box for code listings
 \tcbuselibrary{minted,skins} % use minted in box for code listings
 
 \AtBeginDocument{ % configurations of code listings and its surrounding box
-	\newtcblisting[blend into=listings]{code}[2][]{
+	\DeclareTCBListing[blend into=listings]{code}{ O{TypeScript} m m }{ % write default programming langauge in O{...}
 		listing engine=minted,
-		title={#1},
-		label={#2},
+		title={#2},
+		label={#3},
 		center title,
 		listing only,
 		breakable=true,
@@ -80,7 +86,7 @@
 		colback=black!1,
 		colframe=black!70,
 		minted style=colorful,
-		minted language=TypeScript, % specify the programming language here
+		minted language=#1,
 		minted options={
 			linenos=true,
 			numbersep=2.5mm,
@@ -93,10 +99,20 @@
 }
 
 %-------------------------------------------------------------------------------
+% QUOTES
+%-------------------------------------------------------------------------------
+
+\usepackage{csquotes} % format quotes correctly
+
+%-------------------------------------------------------------------------------
 % BIBLIOGRAPHY
 %-------------------------------------------------------------------------------
 
-\usepackage[style=numeric,urldate=long,sorting=none,backend=biber]{biblatex} % configure references style
+\usepackage[
+	style=numeric,
+	urldate=long,
+	sorting=none,
+	backend=biber]{biblatex} % configure references style
 \addbibresource{./sources.bib} % specify references file
 
 %-------------------------------------------------------------------------------
@@ -105,6 +121,15 @@
 
 \usepackage{graphicx} % import images
 \graphicspath{ {./images/} } % root path for all images
+
+%-------------------------------------------------------------------------------
+% PLOTS
+%-------------------------------------------------------------------------------
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17} % specify version
+\usetikzlibrary{patterns} % patterns in bars
+\usetikzlibrary{pgfplots.statistics} % for boxplots etc
 
 %-------------------------------------------------------------------------------
 % CAPTIONS
@@ -119,6 +144,7 @@
 
 \usepackage{tabularx} % table
 \usepackage{multirow} % allow cells to spread across multiple rows/columns
+\usepackage{rotating} % for table rotation
 
 %-------------------------------------------------------------------------------
 % TITLE PAGE
@@ -180,6 +206,26 @@ My work did not involve human participants, their cells or data, or animals.
 
 \newpage
 \tableofcontents
+
+%-------------------------------------------------------------------------------
+% LIST OF FIGURES, TABLES AND CODE LISTINGS
+%-------------------------------------------------------------------------------
+
+\newpage
+\renewcommand{\listfigurename}{Figures}
+\listoffigures \thispagestyle{fancy}
+\addcontentsline{toc}{section}{Figures}
+
+\newpage
+\renewcommand{\listtablename}{Tables}
+\listoftables \thispagestyle{fancy}
+\addcontentsline{toc}{subsection}{Tables}
+
+\newpage
+\renewcommand{\lstlistlistingname}{Code Listings}
+\lstlistoflistings \thispagestyle{fancy}
+\addcontentsline{toc}{section}{Code Listings}
+
 %TC:endignore
 
 %-------------------------------------------------------------------------------
@@ -189,16 +235,16 @@ My work did not involve human participants, their cells or data, or animals.
 \newpage
 \section{Introduction}\label{sec:introduction}
 
-Hello World \cite{React}.
-Please check out listing \ref{listing:awesome-code}, table \ref{tab:mytable} and figure \ref{fig:latex-logo}!
+Hello World~\cite{React}.
+Please check out listing~\ref{listing:awesome-code}, table~\ref{tab:mytable} and figure~\ref{fig:latex-logo}!
 
-\begin{code}[Awesome Code]{listing:awesome-code}
+\begin{code}{Awesome Code}{listing:awesome-code}
 const cool = (): String => {
 	return "cool";
 }
 \end{code}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 	\begin{tabularx}{\textwidth}{|l|X|}
 		\hline
 		\textbf{Name} & \textbf{University} \\
@@ -210,7 +256,7 @@ const cool = (): String => {
 	\label{tab:mytable}
 \end{table}
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.5\textwidth]{latex.png}
 	\caption{Latex Logo}
@@ -219,7 +265,7 @@ const cool = (): String => {
 
 \newpage
 \section{Conclusion}\label{sec:conclusion}
-Everything is awesome (see appendix \ref{sec:first-appendix}).
+Everything is awesome (see appendix~\ref{sec:first-appendix}).
 
 %-------------------------------------------------------------------------------
 % BIBLIOGRAPHY
@@ -229,24 +275,6 @@ Everything is awesome (see appendix \ref{sec:first-appendix}).
 \newpage
 \printbibliography
 \addcontentsline{toc}{section}{References}
-
-%-------------------------------------------------------------------------------
-% FIGURES, TABLES AND LISTINGS
-%-------------------------------------------------------------------------------
-
-\newpage
-\listoffigures \thispagestyle{fancy}
-\addcontentsline{toc}{section}{Lists}
-\addcontentsline{toc}{subsection}{List of Figures}
-
-\newpage
-\listoftables \thispagestyle{fancy}
-\addcontentsline{toc}{subsection}{List of Tables}
-
-\newpage
-\renewcommand{\lstlistlistingname}{List of Listings}
-\lstlistoflistings \thispagestyle{fancy}
-\addcontentsline{toc}{subsection}{List of Listings}
 
 %-------------------------------------------------------------------------------
 % APENDICES
