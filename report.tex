@@ -66,8 +66,10 @@
 \usepackage[most]{tcolorbox} % box for code listings
 \tcbuselibrary{minted,skins} % use minted in box for code listings
 
+\newcommand{\programminglanguage}{TypeScript} % set main programming language here
+
 \AtBeginDocument{ % configurations of code listings and its surrounding box
-	\DeclareTCBListing[blend into=listings]{code}{ O{TypeScript} m m }{ % write default programming langauge in O{...}
+	\DeclareTCBListing[blend into=listings]{code}{ O{\programminglanguage} m m }{ % write default programming langauge in O{...}
 		listing engine=minted,
 		title={#2},
 		label={#3},
@@ -239,9 +241,13 @@ Hello World~\cite{React}.
 Please check out listing~\ref{listing:awesome-code}, table~\ref{tab:mytable} and figure~\ref{fig:latex-logo}!
 
 \begin{code}{Awesome Code}{listing:awesome-code}
-const cool = (): String => {
+const cool = (): string => {
 	return "cool";
 }
+\end{code}
+
+\begin{code}[java]{Java Code}{listing:java-code}
+List<String> names = new ArrayList<>();
 \end{code}
 
 \begin{table}[!ht]
